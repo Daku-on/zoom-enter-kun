@@ -29,3 +29,5 @@ delay = (scheduled_time - now).total_seconds() - ran_seconds
 threading.Timer(delay, enter_zoom).start()
 
 file.close()
+
+#何時に入ります、的なダイアログを表示したい。
