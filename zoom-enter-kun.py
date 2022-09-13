@@ -4,7 +4,6 @@ import webbrowser
 import tkinter as tk
 import tkinter.simpledialog as simpledialog
 
-# url = 'https://zoom.us/j/99219850264?pwd=bzRUcFNRc1VFSXZnRFI5RGQ3WDMxZz09'
 url = 'https://u-tokyo-ac-jp.zoom.us/j/81336003579?pwd=K2Y1WXptNElsRkFvUFBFYm9vN1Fsdz09'
 
 def enter_zoom():
