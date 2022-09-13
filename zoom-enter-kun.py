@@ -7,7 +7,7 @@ from pathlib import Path
 import sys, os, random
 
 path_app = os.getcwd()
-path = os.path.join(path_app,'url.txt')
+path = os.path.join(path_app,'url.txt') # pyinstaller でアプリ化したときに動かにゃい
 file = open(path,'r')
 url = file.read()
 
