@@ -130,3 +130,4 @@ dmypy.json
 
 # URL file
 url.txt
+.DS_Store
