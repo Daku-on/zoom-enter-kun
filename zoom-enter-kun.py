@@ -4,7 +4,7 @@ import webbrowser
 import tkinter as tk
 import tkinter.simpledialog as simpledialog
 from pathlib import Path
-import sys, os
+import sys, os, random
 
 path_app = os.getcwd()
 path = os.path.join(path_app,'url.txt')
@@ -20,11 +20,12 @@ time_to_zoom = simpledialog.askstring('時刻入力', '何時にzoomに入りま
 scheduled_hour = int(time_to_zoom[0:2]) #例外処理必須
 scheduled_min = int(time_to_zoom[3:])
 
-dt = datetime.datetime.today()  # ローカルな現在の日付と時刻を取得
+dt = datetime.datetime.today()
 scheduled_time = datetime.datetime(dt.year, dt.month, dt.day, scheduled_hour, scheduled_min, 0,0)
 
 now = datetime.datetime.now()
-delay = (scheduled_time - now).total_seconds()
+ran_seconds = random.randint(120,300) # 3分〜5分前の間でランダムに入室時刻をずらす。5分前以降に起動した場合の例外処理が必要
+delay = (scheduled_time - now).total_seconds() - ran_seconds
 threading.Timer(delay, enter_zoom).start()
 
 file.close()
