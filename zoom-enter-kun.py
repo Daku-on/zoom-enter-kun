@@ -6,8 +6,9 @@ import tkinter.simpledialog as simpledialog
 from pathlib import Path
 import sys, os
 
-path = sys.path.abspath(sys.argv[0])
-file = open('path/url.txt','r')
+path_app = os.getcwd()
+path = os.path.join(path_app,'url.txt')
+file = open(path,'r')
 url = file.read()
 
 def enter_zoom():
@@ -16,7 +17,7 @@ def enter_zoom():
 tk.Tk().withdraw()
 time_to_zoom = simpledialog.askstring('時刻入力', '何時にzoomに入りますか (HH:MM)')
 
-scheduled_hour = int(time_to_zoom[0:2])
+scheduled_hour = int(time_to_zoom[0:2]) #例外処理必須
 scheduled_min = int(time_to_zoom[3:])
 
 dt = datetime.datetime.today()  # ローカルな現在の日付と時刻を取得
