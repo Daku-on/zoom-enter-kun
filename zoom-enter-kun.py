@@ -4,7 +4,7 @@ import webbrowser
 import tkinter as tk
 import tkinter.simpledialog as simpledialog
 
-file = open('./url.txt','r')
+file = open('url.txt','r')
 url = file.read()
 
 def enter_zoom():
