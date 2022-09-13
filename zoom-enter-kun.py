@@ -3,8 +3,11 @@ import datetime
 import webbrowser
 import tkinter as tk
 import tkinter.simpledialog as simpledialog
+from pathlib import Path
+import sys, os
 
-file = open('url.txt','r')
+path = sys.path.abspath(sys.argv[0])
+file = open('path/url.txt','r')
 url = file.read()
 
 def enter_zoom():
