@@ -6,7 +6,12 @@ import tkinter.simpledialog as simpledialog
 from pathlib import Path
 import sys, os, random
 
-path_app = os.getcwd()
+
+if getattr(sys, 'frozen', False):
+    path_app = os.path.dirname(os.path.abspath(sys.executable))
+else:
+    path_app = os.path.dirname(os.path.abspath(__file__))
+# cf. https://qiita.com/typeling1578/items/6e86cfc1febb2cf53141
 path = os.path.join(path_app,'url.txt') # pyinstaller でアプリ化したときに動かにゃい
 file = open(path,'r')
 url = file.read()
