@@ -33,15 +33,16 @@ scheduled_time = datetime.datetime(dt.year, dt.month, dt.day, scheduled_hour, sc
 
 now = datetime.datetime.now()
 
-min_delay_sec = 120
-max_delay_sec = 300
+#ここらへんintとdatetime型でごっちゃってる
+min_delay_sec = datetime.timedelta(seconds = 120)
+max_delay_sec = datetime.timedelta(seconds = 300)
 ran_seconds = random.randint(min_delay_sec,max_delay_sec) # 3分〜5分前の間でランダムに入室時刻をずらす。5分前以降に起動した場合の例外処理が必要
 
 delay = (scheduled_time - now).total_seconds()
 if delay > max_delay_sec.total_seconds():
     delay = (scheduled_time - now).total_seconds() - ran_seconds
 else: 
-    delay = 5
+    delay = datetime.timedelta(seconds = 5)
 threading.Timer(delay, enter_zoom).start()
 
 file.close()
