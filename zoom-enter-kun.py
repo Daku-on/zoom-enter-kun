@@ -65,5 +65,5 @@ file.close()
 
 what_time = ask_schedule()
 threading.Timer(make_delay(what_time), enter_zoom).start()
-#done_message(make_delay(what_time))
+done_message(make_delay(what_time))
 # https://stackoverflow.com/questions/30235587/closing-tkmessagebox-after-some-time-in-python?rq=1
