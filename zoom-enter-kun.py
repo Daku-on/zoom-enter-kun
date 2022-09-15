@@ -23,6 +23,7 @@ def enter_zoom():
     webbrowser.open(url, new=0, autoraise=True)
     
 def done_message(delay_sec): #この関数バグってそう
+    #ここらへん参照 https://qiita.com/aoirint/items/ca2386b68e8fec16ff53
     now = datetime.datetime.now()
     scheduled_time = (now + datetime.timedelta(seconds = delay_sec)).isoformat(' ')
     top = tk.Toplevel()
