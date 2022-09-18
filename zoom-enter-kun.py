@@ -29,19 +29,27 @@ def ask_schedule():
 def enter_zoom():
     webbrowser.open(url, new=0, autoraise=True)
     
-def done_message(delay_sec): #この関数バグってそう
+def done_message(delay_sec):
     #ここらへん参照 https://qiita.com/aoirint/items/ca2386b68e8fec16ff53
     now = datetime.datetime.now()
     scheduled_time = now + datetime.timedelta(seconds = delay_sec)
-    scheduled_time_iso = (scheduled_time).isoformat(' ')
+    scheduled_time_iso = (scheduled_time).isoformat(
+        ' ', timespec='seconds')
+    root = tk.Tk()
+    root.withdraw()
+    
     top = tk.Toplevel()
+    top.fonts = ("", 18)
+    top.geometry('400x400')
     top.title('完了報告')
     tk.Message(
-        top, text=scheduled_time_iso + 'に入室します。', padx=20, pady=20
+        top, text=scheduled_time_iso + 'に入室します。',
+        padx=40, pady=30
         ).pack()
     WELCOME_DURATION = 10000
     top.after(WELCOME_DURATION, top.destroy)
-    tk.mainloop()
+    top.mainloop()
+    
 
 def current_dir():
     if getattr(sys, 'frozen', False):
