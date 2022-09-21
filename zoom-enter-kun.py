@@ -1,4 +1,4 @@
-import imp
+import importlib
 import threading
 import datetime
 import webbrowser
@@ -8,6 +8,7 @@ from pathlib import Path
 import sys
 import os
 import random
+import math
 
 def ask_schedule():
     tk.Tk().withdraw()
@@ -46,9 +47,9 @@ def done_message(delay_sec):
         top, font = ("", 22),text=scheduled_time_iso + 'に入室します。',
         padx=1, pady=10
         ).pack()
-    WELCOME_DURATION = 10000
-    root.after(WELCOME_DURATION,root.quit)
-    top.after(WELCOME_DURATION,top.destroy)
+    WELCOME_DURATION = (math.ceil(delay_sec) - 10)*1000
+    root.after(WELCOME_DURATION, root.quit)
+    top.after(WELCOME_DURATION, top.destroy)
 
     top.mainloop()
     
