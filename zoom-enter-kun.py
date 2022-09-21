@@ -37,6 +37,7 @@ def done_message(delay_sec):
         ' ', timespec='seconds')
     root = tk.Tk()
     root.withdraw()
+    #root.attributes('-topmost',True)
     
     top = tk.Toplevel()
     top.fonts = ("", 18)
@@ -47,7 +48,8 @@ def done_message(delay_sec):
         padx=40, pady=30
         ).pack()
     WELCOME_DURATION = 10000
-    top.after(WELCOME_DURATION, top.destroy)
+    top.after(WELCOME_DURATION,top.destroy)
+    # root.after(2*WELCOME_DURATION, root.destroy())
     top.mainloop()
     
 
@@ -88,3 +90,4 @@ threading.Timer(make_delay(what_time), enter_zoom).start()
 done_message(make_delay(what_time))
 # https://stackoverflow.com/questions/30235587/closing-tkmessagebox-after-some-time-in-python?rq=1
 
+sys.exit()
