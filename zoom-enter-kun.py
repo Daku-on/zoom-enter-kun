@@ -38,6 +38,8 @@ def done_message(delay_sec):
         ' ', timespec='seconds')
     root = tk.Tk()
     root.withdraw()
+    button = root.Button(root, text="Exit", command=root.quit)
+    button.pack()
     #root.attributes('-topmost',True)
     
     top = tk.Toplevel()
@@ -50,7 +52,7 @@ def done_message(delay_sec):
     WELCOME_DURATION = 10000
     # root.after(WELCOME_DURATION,root.destroy)
     top.after(WELCOME_DURATION,top.destroy)
-    # root.after(2*WELCOME_DURATION, root.destroy())
+
     top.mainloop()
     
 
