@@ -1,8 +1,10 @@
+import imp
 import threading
 import datetime
 import webbrowser
 import tkinter as tk
 import tkinter.simpledialog as simpledialog
+from tkinter.font import Font
 from pathlib import Path
 import sys
 import os
@@ -40,12 +42,11 @@ def done_message(delay_sec):
     #root.attributes('-topmost',True)
     
     top = tk.Toplevel()
-    top.fonts = ("", 18)
-    top.geometry('400x400')
+    top.geometry('400x100+500+200')
     top.title('完了報告')
     tk.Message(
-        top, text=scheduled_time_iso + 'に入室します。',
-        padx=40, pady=30
+        top, font = ("", 22),text=scheduled_time_iso + 'に入室します。',
+        padx=1, pady=10
         ).pack()
     WELCOME_DURATION = 10000
     top.after(WELCOME_DURATION,top.destroy)
