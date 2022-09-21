@@ -4,7 +4,6 @@ import datetime
 import webbrowser
 import tkinter as tk
 import tkinter.simpledialog as simpledialog
-from tkinter.font import Font
 from pathlib import Path
 import sys
 import os
@@ -26,7 +25,7 @@ def ask_schedule():
         return scheduled_time
     except:
         print('形式が正しくありません。')
-        return sys.exit()
+        return ask_schedule()
 
 def enter_zoom():
     webbrowser.open(url, new=0, autoraise=True)
@@ -49,6 +48,7 @@ def done_message(delay_sec):
         padx=1, pady=10
         ).pack()
     WELCOME_DURATION = 10000
+    # root.after(WELCOME_DURATION,root.destroy)
     top.after(WELCOME_DURATION,top.destroy)
     # root.after(2*WELCOME_DURATION, root.destroy())
     top.mainloop()
