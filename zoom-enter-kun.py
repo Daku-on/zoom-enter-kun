@@ -1,4 +1,5 @@
 import importlib
+from shutil import which
 import threading
 import datetime
 from urllib.request import HTTPPasswordMgrWithDefaultRealm
@@ -14,16 +15,31 @@ import math
 import csv
 import pandas as pd
 
+# def meeting_key_get(window):
+#     global meeting_key
+#     meeting_key = window.get()  
+#     return meeting_key
+global meeting_key
+def assign_meeting_key(choiced):
+    meeting_key = choiced
+    return meeting_key
+
 def ask_meeting(url_list):
-    def meeting_key_get():
-        global meeting_key
-        meeting_key = which_meeting_window.get()  
-        return meeting_key
     
     root = tk.Tk()
-    which_meeting_window = ttk.Combobox(root, values = list(url_list['name']))
+    root.title('ミーティング選択')
+    choice = tk.StringVar()
+    which_meeting_window = ttk.Combobox(
+        root, textvariable=choice, values = list(url_list.index))
+    which_meeting_window.bind("<<ComboboxSelected>>",assign_meeting_key(choice))
+    which_meeting_window.pack()
     #which_meeting_window.set(list(url_list.iat[1,0]))
-    btn = tk.Button(root, text='決定', command=meeting_key_get())
+    
+    btn = tk.Button(root, text='決定',command=lambda: root.destroy)
+    # btn.bind('<ButtonPress>',meeting_key_get(which_meeting_window))
+    btn.pack()
+    root.mainloop()
+    
     
     return meeting_key
 
@@ -42,8 +58,11 @@ def ask_schedule():
             )
         return scheduled_time
     except:
-        print('形式が正しくありません。')
-        return ask_schedule()
+        if time_to_zoom == None:
+            sys.exit()
+        else: 
+            print('形式が正しくありません。')
+            return ask_schedule()
 
 def enter_zoom(meeting_url):
     webbrowser.open(meeting_url, new=0, autoraise=True)
@@ -100,7 +119,7 @@ def make_delay(what_time):
     return delay
 # ---------------------------------------------    
 with open(current_dir(), encoding="utf8") as url_csv:
-    url_data = pd.read_csv(url_csv)
+    url_data = pd.read_csv(url_csv,skipinitialspace=True,header=0,index_col=0).astype(str)
     meeting_key = ask_meeting(url_data)
     meeting_url = url_data.at[meeting_key,'url']
 
