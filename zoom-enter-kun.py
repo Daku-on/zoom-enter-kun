@@ -1,14 +1,31 @@
 import importlib
 import threading
 import datetime
+from urllib.request import HTTPPasswordMgrWithDefaultRealm
 import webbrowser
 import tkinter as tk
+import tkinter.ttk as ttk
 import tkinter.simpledialog as simpledialog
 from pathlib import Path
 import sys
 import os
 import random
 import math
+import csv
+import pandas as pd
+
+def ask_meeting(url_list):
+    def meeting_key_get():
+        global meeting_key
+        meeting_key = which_meeting_window.get()  
+        return meeting_key
+    
+    root = tk.Tk()
+    which_meeting_window = ttk.Combobox(root, values = list(url_list['name']))
+    #which_meeting_window.set(list(url_list.iat[1,0]))
+    btn = tk.Button(root, text='決定', command=meeting_key_get())
+    
+    return meeting_key
 
 def ask_schedule():
     tk.Tk().withdraw()
@@ -28,8 +45,8 @@ def ask_schedule():
         print('形式が正しくありません。')
         return ask_schedule()
 
-def enter_zoom():
-    webbrowser.open(url, new=0, autoraise=True)
+def enter_zoom(meeting_url):
+    webbrowser.open(meeting_url, new=0, autoraise=True)
     
 def done_message(delay_sec):
     #ここらへん参照 https://qiita.com/aoirint/items/ca2386b68e8fec16ff53
@@ -47,9 +64,9 @@ def done_message(delay_sec):
         top, font = ("", 22),text=scheduled_time_iso + 'に入室します。',
         padx=1, pady=10
         ).pack()
-    WELCOME_DURATION = (math.ceil(delay_sec) - 10)*1000
-    root.after(WELCOME_DURATION, root.quit)
-    top.after(WELCOME_DURATION, top.destroy)
+    duration = (math.ceil(delay_sec) - 10)*1000
+    root.after(duration, root.quit)
+    top.after(duration, top.destroy)
 
     top.mainloop()
     
@@ -60,7 +77,7 @@ def current_dir():
     else:
         path_app = os.path.dirname(os.path.abspath(__file__))
     
-    file_name = 'url.txt'
+    file_name = 'url.csv'
     path = os.path.join(path_app, file_name)
     return path 
     # pyinstaller でアプリ化したときに動かにゃい。 execは動く。
@@ -82,12 +99,13 @@ def make_delay(what_time):
         delay = 5
     return delay
 # ---------------------------------------------    
-file = open(current_dir(),'r')
-url = file.read()
-file.close()
+with open(current_dir(), encoding="utf8") as url_csv:
+    url_data = pd.read_csv(url_csv)
+    meeting_key = ask_meeting(url_data)
+    meeting_url = url_data.at[meeting_key,'url']
 
 what_time = ask_schedule()
-threading.Timer(make_delay(what_time), enter_zoom).start()
+threading.Timer(make_delay(what_time), enter_zoom(meeting_url)).start()
 done_message(make_delay(what_time))
 # https://stackoverflow.com/questions/30235587/closing-tkmessagebox-after-some-time-in-python?rq=1
 

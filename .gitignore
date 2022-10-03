@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # URL file
-url.txt
+url.*
 .DS_Store
 online_kaigi_woman.png
 zoom-enter-kun
