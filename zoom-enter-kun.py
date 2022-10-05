@@ -22,8 +22,6 @@ class zoom_enter_kun:
         self.meeting_url = ''
         self.url_data = None
         self.path = ''
-        self.root = tk.Tk()
-        self.root.withdraw()
         self.duration = 3*10**3
 
     def assign_meeting_key(self,choice):
@@ -50,7 +48,8 @@ class zoom_enter_kun:
         return self.meeting_url
 
     def ask_schedule(self):
-        tk.Tk().withdraw()
+        ask_schedule_window = tk.Toplevel()
+        ask_schedule_window.withdraw()
         self.time_to_zoom = simpledialog.askstring(
             '時刻入力', '何時にzoomに入りますか (HH:MM)'
             )
@@ -89,10 +88,10 @@ class zoom_enter_kun:
             padx=1, pady=10
             ).pack()
         duration = (math.ceil(arg1) - 10)*1000
-        self.root.after(duration, self.root.quit)
-        self.done_message_window.after(duration, self.done_message_window.destroy)
+        root.after(duration, root.quit)
+        done_message_window.after(duration, done_message_window.destroy)
 
-        self.done_message_window.mainloop()
+        done_message_window.mainloop()
         
         # top = tk.Toplevel()
         # top.geometry('400x100+500+200')
@@ -102,7 +101,7 @@ class zoom_enter_kun:
         #     padx=1, pady=10
         #     ).pack()
         # duration = (math.ceil(arg1) - 10)*1000
-        # self.root.after(duration, self.root.quit)
+        # root.after(duration, root.quit)
         # top.after(duration, top.destroy)
 
         # top.mainloop()
@@ -140,11 +139,12 @@ class zoom_enter_kun:
         threading.Timer(self.delay_sec,self.enter_zoom()).start()
 # --------------------------------------------- 
 zek = zoom_enter_kun()
+root = tk.Tk()
+root.withdraw()
 with open(zek.current_dir(), encoding="utf8") as url_csv:
     zek.url_data = pd.read_csv(url_csv,skipinitialspace=True,header=0,index_col=0).astype(str)
     zek.ask_meeting(zek.url_data)
 
-zek.ask_schedule()
 zek.what_time = zek.ask_schedule()
 zek.timer()
 zek.done_message(zek.delay_sec)
