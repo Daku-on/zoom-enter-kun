@@ -19,29 +19,28 @@ import pandas as pd
 #     global meeting_key
 #     meeting_key = window.get()  
 #     return meeting_key
-global meeting_key
-def assign_meeting_key(choiced):
-    meeting_key = choiced
-    return meeting_key
+meeting_url = ''
+
+def assign_meeting_key(choice):
+    global meeting_url
+    meeting_url = url_data.at[choice,'url']
+    return meeting_url
 
 def ask_meeting(url_list):
-    
+    global meeting_url
     root = tk.Tk()
-    root.title('ミーティング選択')
-    choice = tk.StringVar()
+    root.title('ミーティング選択')   
     which_meeting_window = ttk.Combobox(
-        root, textvariable=choice, values = list(url_list.index))
-    which_meeting_window.bind("<<ComboboxSelected>>",assign_meeting_key(choice))
+        root, values = list(url_list.index))
     which_meeting_window.pack()
     #which_meeting_window.set(list(url_list.iat[1,0]))
     
-    btn = tk.Button(root, text='決定',command=lambda: root.destroy)
+    btn = tk.Button(root, text='決定',command=lambda:[assign_meeting_key(which_meeting_window.get()),root.destroy()])
     # btn.bind('<ButtonPress>',meeting_key_get(which_meeting_window))
     btn.pack()
-    root.mainloop()
+    root.mainloop()    
     
-    
-    return meeting_key
+    return meeting_url
 
 def ask_schedule():
     tk.Tk().withdraw()
@@ -59,13 +58,13 @@ def ask_schedule():
         return scheduled_time
     except:
         if time_to_zoom == None:
-            sys.exit()
+            return sys.exit()
         else: 
             print('形式が正しくありません。')
             return ask_schedule()
 
-def enter_zoom(meeting_url):
-    webbrowser.open(meeting_url, new=0, autoraise=True)
+def enter_zoom(args):
+    webbrowser.open(args, new=0, autoraise=True)
     
 def done_message(delay_sec):
     #ここらへん参照 https://qiita.com/aoirint/items/ca2386b68e8fec16ff53
@@ -120,11 +119,14 @@ def make_delay(what_time):
 # ---------------------------------------------    
 with open(current_dir(), encoding="utf8") as url_csv:
     url_data = pd.read_csv(url_csv,skipinitialspace=True,header=0,index_col=0).astype(str)
-    meeting_key = ask_meeting(url_data)
-    meeting_url = url_data.at[meeting_key,'url']
+    ask_meeting(url_data)
+    # meeting_key = ask_meeting(url_data)
+    # meeting_key = 'もくもく会'
+    # meeting_url = url_data.at[meeting_key,'url']
+
 
 what_time = ask_schedule()
-threading.Timer(make_delay(what_time), enter_zoom(meeting_url)).start()
+threading.Timer(make_delay(what_time),enter_zoom, args=(meeting_url,)).start()
 done_message(make_delay(what_time))
 # https://stackoverflow.com/questions/30235587/closing-tkmessagebox-after-some-time-in-python?rq=1
 
