@@ -43,6 +43,23 @@ class zoom_enter_kun:
         app.time_to_zoom = arg1
         return app.time_to_zoom
     
+    def get_scheduled_time(self):
+            # dt = datetime.strptime("2018/06/05 13:45:06", "%Y/%m/%d %H:%M:%S") 
+        # これに変更 http://hxn.blog.jp/archives/9800548.html
+        tday = datetime.date.today().strftime('%Y%m%d')                                        
+        
+        try:
+            self.scheduled_time = datetime.datetime.strptime(
+                tday + self.time_to_zoom, '%Y%m%d%H:%M'
+                )
+            return self.scheduled_time
+        except:
+            if self.time_to_zoom == None:
+                return sys.exit()
+            else: 
+                print('形式が正しくありません。')
+                return self.create_ask_time_dialog()
+    
     def make_delay(self, arg1):
         min_delay_sec = 120
         max_delay_sec = 300
@@ -99,7 +116,8 @@ class Application(tk.Frame):
         which_meeting_window.pack()
         which_meeting_window.set(self.data.index.values[0])
         
-        btn1 = tk.Button(ask_meeting_dialog, text='決定',command=lambda:[zek.assign_meeting_key(which_meeting_window.get()),])
+        btn1 = tk.Button(
+            ask_meeting_dialog, text='決定',command=lambda:[zek.assign_meeting_key(which_meeting_window.get()),ask_meeting_dialog.withdraw])
                 
         btn1.pack()
         
@@ -116,28 +134,16 @@ class Application(tk.Frame):
         ask_time_dialog.transient(self.master)   # タスクバーに表示しない
         usr_input = tk.Entry(ask_time_dialog)
         usr_input.grid(row = 2, column = 1)
-        ask_time_label = ttk.Label(ask_time_dialog, text='何時にzoomに入りますか (HH:MM)')
+        ask_time_label = ttk.Label(
+            ask_time_dialog, text='何時にzoomに入りますか (HH:MM)')
         ask_time_label.grid(row = 1, column = 1)
-        btn1 = tk.Button(ask_time_dialog, text='決定',command=lambda: zek.get_time(usr_input.get()))
+        btn1 = tk.Button(
+            ask_time_dialog, text='決定',
+            command=lambda: [zek.get_time(usr_input.get()),ask_time_dialog.withdraw]) #ここをさらに scheduled_time づくりまで持ってく。list化する
         btn1.grid(row=3,column=1)
         # ダイアログが閉じられるまで待つ
         app.wait_window(ask_time_dialog) 
         
-        # dt = datetime.strptime("2018/06/05 13:45:06", "%Y/%m/%d %H:%M:%S") 
-        # これに変更 http://hxn.blog.jp/archives/9800548.html
-        tday = datetime.date.today().strftime('%Y%m%d')                                        
-        
-        try:
-            self.scheduled_time = datetime.datetime.strptime(
-                tday + self.time_to_zoom, '%Y%m%d%H:%M'
-                )
-            return self.scheduled_time
-        except:
-            if self.time_to_zoom == None:
-                return sys.exit()
-            else: 
-                print('形式が正しくありません。')
-                return self.create_ask_time_dialog()
 
 if __name__ == "__main__":
     root = tk.Tk()
