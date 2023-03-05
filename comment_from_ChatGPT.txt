@@ -1,0 +1,15 @@
+There are some issues in the provided code. Here are the bugs and suggestions for fixing them:
+
+zek.url_data is referenced in the Application class, but there is no instance of the zoom_enter_kun class created with the variable name zek. Create an instance of the class at the beginning of the Application class to fix this issue.
+
+app.wait_window(ask_meeting_dialog) should be replaced with ask_meeting_dialog.wait_window() to avoid the NameError in the create_ask_meeting_dialog() function.
+
+self.master should be changed to master to use the input parameter in the Application class's __init__ function.
+
+The assign_meeting_key() method should be called using the instance self instead of the zek variable.
+
+The get_time() method should return a value instead of assigning it to the instance variable app.time_to_zoom.
+
+The make_delay() method should return the delay_sec variable instead of assigning it to the instance variable self.delay_sec.
+
+Here is the fixed code:
