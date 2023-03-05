@@ -42,9 +42,12 @@ class Application(tk.Frame):
     def enter_zoom(self):
         choice = self.url_choice.current()
         meeting_url = self.zek.assign_meeting_key(choice)
+        tday = datetime.date.today().strftime('%Y%m%d') 
         meeting_time = self.time_entry.get() #make this datetime type!
         try:
-            scheduled_time = datetime.datetime.strptime(meeting_time, '%H:%M')
+            scheduled_time = datetime.datetime.strptime(
+                tday + self.meeting_time, '%Y%m%d%H:%M'
+                )
         except ValueError:
             print('Invalid time format. Please enter time in HH:MM format.')
             return
