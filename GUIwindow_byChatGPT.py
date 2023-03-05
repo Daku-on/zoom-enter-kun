@@ -42,7 +42,7 @@ class Application(tk.Frame):
     def enter_zoom(self):
         choice = self.url_choice.current()
         meeting_url = self.zek.assign_meeting_key(choice)
-        meeting_time = self.time_entry.get()
+        meeting_time = self.time_entry.get() #make this datetime type!
         try:
             scheduled_time = datetime.datetime.strptime(meeting_time, '%H:%M')
         except ValueError:
