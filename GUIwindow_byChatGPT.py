@@ -6,10 +6,10 @@ import webbrowser
 
 class ZoomEnterKun:
     def __init__(self):
-        self.url_data = pd.read_csv('url.csv', index_col=0)
+        self.url_data = pd.read_csv('url.csv', index_col=0, encoding='utf8')
 
     def assign_meeting_key(self, choice):
-        return self.url_data.at[choice, 'url']
+        return self.url_data.iat[choice+1, 0]
 
 
 class Application(tk.Frame):
@@ -46,7 +46,7 @@ class Application(tk.Frame):
         meeting_time = self.time_entry.get() #make this datetime type!
         try:
             scheduled_time = datetime.datetime.strptime(
-                tday + self.meeting_time, '%Y%m%d%H:%M'
+                tday + meeting_time, '%Y%m%d%H:%M'
                 )
         except ValueError:
             print('Invalid time format. Please enter time in HH:MM format.')
@@ -59,6 +59,7 @@ class Application(tk.Frame):
         self.master.destroy()
         # Open Zoom meeting URL in default browser
         webbrowser.open_new_tab(meeting_url)
+        print(meeting_url)
         
 root = tk.Tk()
 app = Application(master=root)
