@@ -75,7 +75,7 @@ class zoom_enter_kun:
         return self.delay_sec
     
     def timer(self):
-        threading.Timer(self.delay_sec,self.enter_zoom()).start()
+        threading.Timer(self.delay_sec, self.enter_zoom).start()
 
 class Application(tk.Frame):
     def __init__(self, master = None):
