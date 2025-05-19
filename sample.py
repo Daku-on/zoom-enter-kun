@@ -75,7 +75,7 @@ class zoom_enter_kun:
         return self.delay_sec
     
     def timer(self):
-        threading.Timer(self.delay_sec,self.enter_zoom()).start()
+        threading.Timer(self.delay_sec, self.enter_zoom).start()
 
 class Application(tk.Frame):
     def __init__(self, master = None):
@@ -84,19 +84,19 @@ class Application(tk.Frame):
         self.time_to_zoom = None
         self.scheduled_time = None
         
-        self.master.title('ミーティングと日時選択')       # ウィンドウタイトル
-        self.master.geometry('400x100+500+200') # ウィンドウサイズ(幅x高さ)
+        master.title('ミーティングと日時選択')       # ウィンドウタイトル
+        master.geometry('400x100+500+200') # ウィンドウサイズ(幅x高さ)
 
         # ボタンの作成
         btn_modeless = tk.Button(
-            self.master, 
+            master,
             text = "ミーティング選択",   # ボタンの表示名
             command = self.create_ask_meeting_dialog  # クリックされたときに呼ばれるメソッド
             )
         btn_modeless.pack()
 
         btn_modal = tk.Button(
-            self.master, 
+            master,
             text = "時刻設定",      # ボタンの表示名
             command = self.create_ask_time_dialog    # クリックされたときに呼ばれるメソッド
             )
@@ -117,11 +117,13 @@ class Application(tk.Frame):
         which_meeting_window.set(self.data.index.values[0])
         
         btn1 = tk.Button(
-            ask_meeting_dialog, text='決定',command=lambda:[zek.assign_meeting_key(which_meeting_window.get()),ask_meeting_dialog.withdraw])
+            ask_meeting_dialog, text='決定', command=lambda: [
+                zek.assign_meeting_key(which_meeting_window.get()),
+                ask_meeting_dialog.withdraw()])
                 
         btn1.pack()
         
-        app.wait_window(ask_meeting_dialog)
+        ask_meeting_dialog.wait_window()
 
     def create_ask_time_dialog(self):
         '''モーダルダイアログボックスの作成'''
@@ -139,10 +141,10 @@ class Application(tk.Frame):
         ask_time_label.grid(row = 1, column = 1)
         btn1 = tk.Button(
             ask_time_dialog, text='決定',
-            command=lambda: [zek.get_time(usr_input.get()),ask_time_dialog.withdraw]) #ここをさらに scheduled_time づくりまで持ってく。list化する
+            command=lambda: [zek.get_time(usr_input.get()), ask_time_dialog.withdraw()]) #ここをさらに scheduled_time づくりまで持ってく。list化する
         btn1.grid(row=3,column=1)
         # ダイアログが閉じられるまで待つ
-        app.wait_window(ask_time_dialog) 
+        ask_time_dialog.wait_window()
         
 
 if __name__ == "__main__":
