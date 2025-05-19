@@ -8,3 +8,7 @@ I have decided to collaborate with ChatGPT.
 The raw chat log is in ```comment_from_chatGPT.txt``` and codes written by ChatGPT is in ```codes_from_ChatGPT.py```.
 
 python3で.pyのまま動かすか、pyinstallerでexec化して、.py or execと同じディレクトリに、サンプルを適当に書き換えたurl.csvを置いてご利用ください。
+
+## For New Contributors
+
+A brief guide and repository overview is available in [docs/newbie-overview.md](docs/newbie-overview.md).
