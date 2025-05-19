@@ -136,7 +136,7 @@ class zoom_enter_kun:
         return self.delay_sec
     
     def timer(self):
-        threading.Timer(self.delay_sec,self.enter_zoom()).start()
+        threading.Timer(self.delay_sec, self.enter_zoom).start()
 # --------------------------------------------- 
 zek = zoom_enter_kun()
 root = tk.Tk()
@@ -146,6 +146,7 @@ with open(zek.current_dir(), encoding="utf8") as url_csv:
     zek.ask_meeting(zek.url_data)
 
 zek.what_time = zek.ask_schedule()
+zek.make_delay(zek.what_time)
 zek.timer()
 zek.done_message(zek.delay_sec)
 # https://stackoverflow.com/questions/30235587/closing-tkmessagebox-after-some-time-in-python?rq=1
